@@ -1,6 +1,4 @@
-import numpy as np
-from sklearn.base import BaseEstimator, TransformerMixin
-from hdprediction.dataextraction import LoadRawData
+from hdprediction import LoadRawData
 
 
 class DataExplorer:
