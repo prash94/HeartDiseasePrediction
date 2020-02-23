@@ -19,3 +19,28 @@
 +defaults::xz-5.2.4-h1de35cc_4
 +defaults::zlib-1.2.11-h1de35cc_3
 # update specs: [u'python=3.7']
+==> 2019-12-29 20:58:07 <==
+# cmd: //anaconda/bin/conda install pandas
+# conda version: 4.8.0
++defaults::blas-1.0-mkl
++defaults::intel-openmp-2019.4-233
++defaults::libgfortran-3.0.1-h93005f0_2
++defaults::mkl-2019.4-233
++defaults::mkl-service-2.3.0-py37hfbe908c_0
++defaults::mkl_fft-1.0.15-py37h5e564d8_0
++defaults::mkl_random-1.1.0-py37ha771720_0
++defaults::numpy-1.17.4-py37h890c691_0
++defaults::numpy-base-1.17.4-py37h6575580_0
++defaults::pandas-0.25.3-py37h0a44026_0
++defaults::python-dateutil-2.8.1-py_0
++defaults::pytz-2019.3-py_0
++defaults::six-1.13.0-py37_0
+# update specs: [u'pandas']
+==> 2019-12-29 22:30:18 <==
+# cmd: //anaconda/bin/conda install scikit-learn
+# conda version: 4.8.0
++defaults::joblib-0.14.1-py_0
++defaults::llvm-openmp-4.0.1-hcfea43d_1
++defaults::scikit-learn-0.21.3-py37h27c97d8_0
++defaults::scipy-1.3.1-py37h1410ff5_0
+# update specs: [u'scikit-learn']
