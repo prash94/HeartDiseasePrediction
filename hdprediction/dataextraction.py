@@ -8,12 +8,13 @@ import pathlib
 import pandas as pd
 
 
-class LoadRawData:
+class LoadRawData(*, file_name: str) -> pd.DataFrame:
+
 
     def __init__(self):
         self.feature_prep_log = {}
 
-    def read_data_file(self, file_name, sep=",", **path):
+    def read_data_file(*, file_name: str, sep: str, **path):
         self.feature_prep_log['load_data'] = {}
         if len(path) == 0:
             self.path_data = pathlib.Path.cwd().parent.joinpath('data')

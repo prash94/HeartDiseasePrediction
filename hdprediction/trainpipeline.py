@@ -1,16 +1,9 @@
-import pathlib as pl
+import pipeline
 from sklearn.externals import joblib
 
-# TODO: need to defile this object with actual pipeline
-import pipeline
 
-package_root = pl.Path(__file__).resolve().parent
-model_dir = package_root / 'hdprediction'
-datasets = package_root / 'data'
 
-# ADAPT: define target variable as required in the original model
-target = 'cardio'
-col_id = 'id'
+
 
 feature_list = ['id', 'age', 'gender', 'height',
                 'weight', 'ap_hi', 'ap_lo', 'cholesterol',

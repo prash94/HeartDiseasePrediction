@@ -1,39 +1,39 @@
-from hdprediction import LoadRawData
+import pandas as pd
+from hdprediction.dataextraction import LoadRawData as ld_read
+from sklearn.base import BaseEstimator, TransformerMixin
 
 
-class DataExplorer:
-    def __init__(self):
-        self.categorical_variables = []
-        self.numerical_variables = []
-        self.numerical_missing_values = []
-        self.discrete_variables = []
-        self.dichotomous_variables = []
-        self.cat_lable_count = {}
-        self.ld_read = LoadRawData()
-        self.raw_data, self.feature_prep_log = self.ld_read.read_data_file(file_name='cardio_train.csv',
-                                                                           sep=";")
+class DataExplore():
 
-    # def explore_missing_variables(self, *,)
-    # TODO: add id argument ans exclude this before separation
+    def __init__(self)->None:
+
+        self.feature_sets_dict = {}
+
+        # self.categorical_variables = []
+        # self.numerical_variables = []
+        # self.numerical_missing_values = []
+        # self.discrete_variables = []
+        # self.dichotomous_variables = []
+        # self.cat_lable_count = {}
+        # self.ld_read = LoadRawData()
+        self.raw_data, \
+        self.feature_prep_log = self.ld_read.read_data_file\
+            (file_name='cardio_train.csv',sep=";")
+
     def separatevariables(self,id,**discrete_limit):
         # exclude id
         self.raw_data = self.raw_data.drop(columns=id)
 
-        self.feature_prep_log['categorical_variables'] = {}
-        self.feature_prep_log['numerical_variables'] = {}
-        self.feature_prep_log['discrete_variables'] = {}
-        self.feature_prep_log['dichotomous_variables'] = {}
-
         # List of categorical variables
-        self.categorical_variables = [var for var in self.raw_data.columns
+        self.feature_sets_dict['categorical_variables'] = [var for var in self.raw_data.columns
                                       if self.raw_data[var].dtypes == 'O']
-
+        #
         self.feature_prep_log['categorical_variables']['message'] = f'There are ' \
             f'{len(self.categorical_variables)} ' \
             f'categorical variables ' \
             f'in the dataset'
-        self.feature_prep_log['categorical_variables']['output'] = self.categorical_variables
-        self.feature_prep_log['categorical_variables']['output_type'] = 'list'
+        # self.feature_prep_log['categorical_variables']['output'] = self.categorical_variables
+        # self.feature_prep_log['categorical_variables']['output_type'] = 'list'
 
 
         # list of numerical variables
@@ -124,6 +124,9 @@ class DataExplorer:
         #     dict_measures_ct[var]['quartile1'] = quartile1
         #     dict_measures_ct[var]['quartile4'] = quartile4
         # return dict_measures_ct
+
+    def negativevaluecheck(self):
+
 
 VarExp = DataExplorer()
 VarExp.describevariables()

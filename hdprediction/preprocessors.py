@@ -25,7 +25,7 @@ class ImputeCategoricalVariables(BaseEstimator, TransformerMixin):
             self.variable_list = variable_list
             
             
-# fit and transform methods are needed to use sklearn pipeline
+# fit and transform methods are needed for using sklearn pipeline
     def fit(self, X:pd.DataFrame, y:pd.Series = None) -> 'ImputeCategoricalVariables':
         return self
     
