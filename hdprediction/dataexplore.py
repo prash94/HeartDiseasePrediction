@@ -126,7 +126,18 @@ class DataExplore():
         # return dict_measures_ct
 
     def negativevaluecheck(self):
+           col_list = list(data_set.columns)
+    if 'id' in col_list:
+        col_list.remove('id')
+    
+    cols_neg_values = [col for col in col_list if data_set[col].min() < 0]
 
+    if len(cols_neg_values) == 0:
+        print('\nNegative value test: No negative values found')
+    else:
+        print('\ncheck for negative values in the following columns. Are they expected?\n\n',cols_neg_values)
+
+    return cols_neg_values
 
 VarExp = DataExplorer()
 VarExp.describevariables()
