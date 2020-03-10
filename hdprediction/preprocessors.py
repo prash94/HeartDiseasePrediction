@@ -92,14 +92,67 @@ class RareLableCategoricalEncoder(BaseEstimator, TransformerMixin):
             X[feature] = np.where(X[feature].isin(self.freq_lable_dict[feature]), X[feature],'Rare')
             
         return X
-    
+
+class NegativeValueRemover(BaseEstimator, TransformerMixin):
+
+    def __init__(self, variable_list=None):
+        if not isinstance(variable_list, list):
+            self.variable_list = [variable_list]
+        else:
+            self.variable_list = variable_list
+
+    def fit(self, X:pd.DataFrame, y=None) -> 'NegativeValueRemover':
+        return self
+
+    def transform(self, x:pd.DataFrame) -> pd.DataFrame:
+        x = x.copy()
+
+        for col in self.variable_list:
+            x = x.drop(x[x[col] < 0].index, inplace=True)
+        return x
+
 # this class is for encoding catagorical varialbles with a sequential number based on the mean target value per lable within the variable.
 # Higher the mean more important the lable is. 
 # TODO: Need to check if this works for classification models
 class CategoricalEncoder(BaseEstimator, TransformerMixin):
     
     def __init__(self, variable_list=None):
-        if not isinstance()
+        if not isinstance(variable_list, list):
+            self.variable_list = [variable_list]
+        else:
+            self.variable_list = variable_list
+
+    def fit(self, X, y):
+        temp = pd.concat([X,y], axis=1)
+        temp.columns = list(X.columns) + ['target']
+
+#         persist transforming dictionary
+        self.encoder_dict = {}
+
+        for var in self.variable_list:
+            t = temp.groupby([var])['target'].mean().sort_values(ascending=True).index
+            self.encoder_dict[var] = {k: i for i, k in enumerate(t,0)}
+
+        return self
+
+    def transform(self, X):
+        # TODO: Add the following code to all preprocessor methods
+        # QUESTION: why de we need to create a copy?
+        X = X.copy()
+        for feature in self.variable_list:
+            X[feature] = X[feature].map(self.encoder_dict[feature])
+
+#        Check if this generates null values
+        # QUESTION: what does any().any() do?
+        if X[self.variable_list].isnull().any().any():
+            null_counts = X[self.variable_list].isnull().any()
+            vars = {key: value for (key, value) in null_counts.items() if value is True}
+
+            raise InvalidModelInputError(
+                f'Categorical encoder has introduced null values when'
+                f'transforming categorical variables: {vars.keys()}'
+            )
+        return X
     
         
     

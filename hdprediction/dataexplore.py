@@ -126,18 +126,34 @@ class DataExplore():
         # return dict_measures_ct
 
     def negativevaluecheck(self):
-           col_list = list(data_set.columns)
-    if 'id' in col_list:
-        col_list.remove('id')
+        col_list = list(data_set.columns)
+        if 'id' in col_list:
+            col_list.remove('id')
     
-    cols_neg_values = [col for col in col_list if data_set[col].min() < 0]
+        cols_neg_values = [col for col in col_list if data_set[col].min() < 0]
 
-    if len(cols_neg_values) == 0:
-        print('\nNegative value test: No negative values found')
-    else:
-        print('\ncheck for negative values in the following columns. Are they expected?\n\n',cols_neg_values)
+        if len(cols_neg_values) == 0:
+            print('\nNegative value test: No negative values found')
+        else:
+            print('\ncheck for negative values in the following columns. Are they expected?\n\n',cols_neg_values)
 
-    return cols_neg_values
+        return cols_neg_values
+
+    def missing_value_columns(self):
+        col_list = list(data_set.columns)
+        if 'id' in col_list:
+            col_list.remove('id')
+
+        cols_missing_values = [col for col in col_list if data_set[col].isnull().sum() > 0]
+
+        if len(cols_missing_values) == 0:
+            print('Missing value test: OK')
+        else:
+            print('check for missing values in the following columns\n', cols_missing_values)
+        #     TODO: create a dict instead and add the % of missing values. \
+        #           This can be used to set a threshold for which you need you need to impute
+        return cols_missing_values
+
 
 VarExp = DataExplorer()
 VarExp.describevariables()
