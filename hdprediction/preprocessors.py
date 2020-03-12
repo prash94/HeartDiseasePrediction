@@ -153,7 +153,30 @@ class CategoricalEncoder(BaseEstimator, TransformerMixin):
                 f'transforming categorical variables: {vars.keys()}'
             )
         return X
-    
-        
-    
+
+
+class feature_scaling(BaseEstimator, TransformerMixin):
+
+    def scale_numerical_features(xtrain, xtest):
+        xtrain_cont = xtrain[continuous_variables + discrete_variables]
+        xtest_cont = xtest[continuous_variables + discrete_variables]
+        xtrain_non_cont = xtrain.drop(continuous_variables + discrete_variables, axis=1)
+        xtest_non_cont = xtest.drop(continuous_variables + discrete_variables, axis=1)
+
+        scaler = MinMaxScaler()
+        xtrain_scaled = scaler.fit_transform(xtrain_cont)
+        xtest_scaled = scaler.transform(xtest_cont)
+
+        xtrain_scaled = pd.DataFrame(xtrain_scaled, columns=xtrain_cont.columns, index=xtrain_cont.index)
+        xtest_scaled = pd.DataFrame(xtest_scaled, columns=xtest_cont.columns, index=xtest_cont.index)
+
+        x_train_ds = pd.concat([xtrain_non_cont, xtrain_scaled], axis=1)
+        x_test_ds = pd.concat([xtest_non_cont, xtest_scaled], axis=1)
+
+        print('x_train:', x_train_ds.shape)
+        print('x_test:', x_test_ds.shape)
+
+        return x_train_ds, x_test_ds
+
+    x_train, x_test = scale_numerical_features(x_train, x_test)
 
